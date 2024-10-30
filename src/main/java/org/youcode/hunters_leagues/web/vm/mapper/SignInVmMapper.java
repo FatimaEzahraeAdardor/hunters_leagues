@@ -2,10 +2,10 @@ package org.youcode.hunters_leagues.web.vm.mapper;
 
 import org.mapstruct.Mapper;
 import org.youcode.hunters_leagues.domain.User;
-import org.youcode.hunters_leagues.web.vm.SignUpVm;
+import org.youcode.hunters_leagues.web.vm.SignInVm;
 
 @Mapper(componentModel = "spring")
-public interface SignUpVmMapper {
-    User ToUser(SignUpVm signUpVm);
-//    SignUpVm ToSignUpVm(User user);
+public interface SignInVmMapper {
+    User ToUser(SignInVm signInVm);
+//    SignInVm ToSignInVm(User user);
 }
