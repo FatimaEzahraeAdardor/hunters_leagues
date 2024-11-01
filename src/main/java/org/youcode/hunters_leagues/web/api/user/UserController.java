@@ -3,6 +3,7 @@ package org.youcode.hunters_leagues.web.api.user;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.youcode.hunters_leagues.domain.User;
@@ -16,8 +17,7 @@ import org.youcode.hunters_leagues.web.vm.mapper.SignUpVmMapper;
 import org.youcode.hunters_leagues.web.vm.mapper.UserResponseVmMapper;
 import org.youcode.hunters_leagues.web.vm.mapper.UserVmMapper;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/users")
@@ -38,25 +38,38 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> addUser(@RequestBody @Valid SignUpVm signUpVm){
+    public ResponseEntity<Map<String, Object>> addUser(@RequestBody @Valid SignUpVm signUpVm){
         User user = signUpVmMapper.ToUser(signUpVm);
-        userServiceImpl.save(user);
-        return ResponseEntity.ok("User registered successfully");
+        User createdUser = userServiceImpl.save(user);
+        UserResponseVm userResponseVm = userResponseVmMapper.toUserVm(createdUser);
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "User registred successfully");
+        response.put("user", userResponseVm);
+        return new  ResponseEntity<>(response, HttpStatus.CREATED);
     }
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody @Valid SignInVm signInVm){
+    public ResponseEntity<Map<String, Object>> login(@RequestBody @Valid SignInVm signInVm){
         User user = signInVmMapper.ToUser(signInVm);
-        userServiceImpl.login(user);
-        return ResponseEntity.ok("User logged in successfully");
+       Optional<User> loggedUser =  userServiceImpl.login(user);
+        UserResponseVm userResponseVm = userResponseVmMapper.toUserVm(loggedUser.get());
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "User logged successfully");
+        response.put("user", userResponseVm);
+        return new  ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PutMapping("update/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable UUID id, @RequestBody @Valid UserVm userVm) {
+    public ResponseEntity<Map<String, Object>> updateUser(@PathVariable UUID id, @RequestBody @Valid UserVm userVm) {
         User user = userVmMapper.toUser(userVm);
         user.setId(id);
-        userServiceImpl.update(user);
-        return ResponseEntity.ok("User updated successfully");
+        User updatedUser = userServiceImpl.update(user);
+        UserResponseVm userResponseVm = userResponseVmMapper.toUserVm(updatedUser);
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "User updated successfully");
+        response.put("user", userResponseVm);
+        return new  ResponseEntity<>(response, HttpStatus.CREATED);
     }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable UUID id) {
       userServiceImpl.delete(id);
