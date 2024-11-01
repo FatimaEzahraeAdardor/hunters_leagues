@@ -1,6 +1,8 @@
 package org.youcode.hunters_leagues.web.api.user;
 
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.youcode.hunters_leagues.domain.User;
@@ -67,6 +69,11 @@ public class UserController {
         return ResponseEntity.ok(userResponseVms);
 
     }
-
-
+    @GetMapping("all")
+    public ResponseEntity<Page<UserResponseVm>> getAllUsers(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size) {
+        Page<User> userPage = userServiceImpl.getAllUsersPaginated(page, size);
+        List<UserResponseVm> userResponseVms = userPage.getContent().stream().map(userResponseVmMapper::toUserVm).toList();
+        Page<UserResponseVm> userResponsePage = new PageImpl<>(userResponseVms, userPage.getPageable(), userPage.getTotalElements());
+        return ResponseEntity.ok(userResponsePage);
+    }
 }

@@ -1,5 +1,6 @@
 package org.youcode.hunters_leagues.service;
 
+import org.springframework.data.domain.Page;
 import org.youcode.hunters_leagues.domain.User;
 
 import java.util.List;
@@ -15,5 +16,7 @@ public interface UserService {
      User update(User user);
      Boolean delete(UUID id);
     List<User> findByUsernameOrEmail(String keyWord);
+    Page<User> getAllUsersPaginated(int page, int size);
+
 
 }

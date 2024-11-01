@@ -1,6 +1,9 @@
 package org.youcode.hunters_leagues.service.implementations;
 
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.youcode.hunters_leagues.domain.User;
 import org.youcode.hunters_leagues.domain.enums.Role;
@@ -26,7 +29,7 @@ public class UserServiceImpl implements UserService
     @Override
     public User save(User user) {
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
-        if (user==null){
+        if (user == null){
             throw new InvalidUserExeption("user is null");
         }
         Optional<User> userOptional = this.findByUserName(user.getUsername());
@@ -95,6 +98,12 @@ public class UserServiceImpl implements UserService
     @Override
     public List<User> findByUsernameOrEmail(String keyWord) {
         return userRepository.findByUsernameIgnoreCaseOrEmailIgnoreCase(keyWord, keyWord);
+    }
+
+    @Override
+    public Page<User> getAllUsersPaginated(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return userRepository.findAll(pageable);
     }
 
 
