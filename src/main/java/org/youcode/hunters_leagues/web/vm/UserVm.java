@@ -2,21 +2,21 @@ package org.youcode.hunters_leagues.web.vm;
 
 import jakarta.validation.constraints.*;
 import lombok.*;
-import org.youcode.hunters_leagues.domain.enums.Role;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class SignUpVm {
+public class UserVm {
     @NotBlank(message = "Username is required.")
     private String username;
 
     @NotBlank(message = "Password is required.")
     @Size(min = 8, message = "Password must be at least 8 characters.")
     private String password;
-
 
     @NotBlank(message = "First name is required.")
     private String firstName;
@@ -35,4 +35,6 @@ public class SignUpVm {
     @NotBlank(message = "Nationality is required.")
     private String nationality;
 
+    @FutureOrPresent(message = "License expiration date cannot be in the past")
+    private LocalDate licenseExpiration;
 }
