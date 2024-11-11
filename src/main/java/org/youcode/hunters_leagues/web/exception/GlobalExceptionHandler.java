@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.youcode.hunters_leagues.web.exception.competition.InvalidCompetitionExeption;
 import org.youcode.hunters_leagues.web.exception.species.InvalidSpeciesExeption;
 import org.youcode.hunters_leagues.web.exception.user.InvalidCredentialsException;
 import org.youcode.hunters_leagues.web.exception.user.InvalidUserExeption;
@@ -29,6 +30,10 @@ public class GlobalExceptionHandler {
     }
     @ExceptionHandler(InvalidSpeciesExeption.class)
     public ResponseEntity<String> handleInvalidSpeciesExeption(InvalidSpeciesExeption ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(InvalidCompetitionExeption.class)
+    public ResponseEntity<String> handleInvalidCompetitionExeption(InvalidCompetitionExeption ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
