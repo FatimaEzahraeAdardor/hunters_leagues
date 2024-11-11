@@ -1,4 +1,4 @@
-package org.youcode.hunters_leagues.web.api.user;
+package org.youcode.hunters_leagues.web.api.species;
 
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -7,13 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.youcode.hunters_leagues.domain.Species;
-import org.youcode.hunters_leagues.domain.User;
 import org.youcode.hunters_leagues.domain.enums.SpeciesType;
-import org.youcode.hunters_leagues.repository.SpeciesRepository;
 import org.youcode.hunters_leagues.service.implementations.SpeciesServiceImpl;
 import org.youcode.hunters_leagues.web.vm.SpeciesResponseVm;
 import org.youcode.hunters_leagues.web.vm.SpeciesVm;
-import org.youcode.hunters_leagues.web.vm.UserResponseVm;
 import org.youcode.hunters_leagues.web.vm.mapper.SpeciesMapper;
 
 import java.util.*;

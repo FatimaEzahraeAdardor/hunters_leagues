@@ -6,4 +6,6 @@ import org.youcode.hunters_leagues.domain.Competition;
 import java.util.UUID;
 
 public interface CompetitionRepository extends JpaRepository<Competition, UUID> {
+    boolean existsByCode(String code);
+
 }
