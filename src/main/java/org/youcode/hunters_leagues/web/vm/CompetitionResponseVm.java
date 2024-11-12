@@ -11,6 +11,7 @@ import java.util.UUID;
 @Getter
 @Setter
 public class CompetitionResponseVm {
+        private UUID id;
         private String location;
         private LocalDateTime date;
         private Integer numberOfParticipants;
