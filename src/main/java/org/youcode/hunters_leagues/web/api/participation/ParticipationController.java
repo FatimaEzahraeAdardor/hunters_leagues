@@ -8,12 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.youcode.hunters_leagues.domain.Competition;
 import org.youcode.hunters_leagues.domain.Participation;
+import org.youcode.hunters_leagues.service.dto.CompetitionResultDto;
 import org.youcode.hunters_leagues.service.implementations.CompetitionServiceImpl;
 import org.youcode.hunters_leagues.service.implementations.ParticipationServiceImpl;
-import org.youcode.hunters_leagues.web.vm.CompetitionResponseVm;
-import org.youcode.hunters_leagues.web.vm.CompetitionVm;
-import org.youcode.hunters_leagues.web.vm.ParticipationResponseVm;
-import org.youcode.hunters_leagues.web.vm.ParticipationVm;
+import org.youcode.hunters_leagues.web.vm.*;
 import org.youcode.hunters_leagues.web.vm.mapper.CompetitionVmMapper;
 import org.youcode.hunters_leagues.web.vm.mapper.ParticipationVmMapper;
 
@@ -45,11 +43,9 @@ public class ParticipationController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-//    @GetMapping("all")
-//    public ResponseEntity<Page<CompetitionResponseVm>> getAllCompetitions(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size) {
-//        Page<Competition> competitionsPage = competitionServiceImp.getAllCompetitionPaginated(page, size);
-//        List<CompetitionResponseVm> competitionResponseVms = competitionsPage.getContent().stream().map(competitionVmMapper::toVM).toList();
-//        Page<CompetitionResponseVm> competitionResponseVmsPage = new PageImpl<>(competitionResponseVms, competitionsPage.getPageable(), competitionsPage.getTotalElements());
-//        return ResponseEntity.ok(competitionResponseVmsPage);
-//    }
+    @GetMapping("/results")
+    public List<CompetitionResultDto> getUserCompetitionResults(@RequestParam UUID userId) {
+        return participationServiceImp.getUserCompetitionResults(userId);
+    }
+
 }

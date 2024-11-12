@@ -8,6 +8,7 @@ import org.youcode.hunters_leagues.repository.CompetitionRepository;
 import org.youcode.hunters_leagues.repository.ParticipationRepository;
 import org.youcode.hunters_leagues.repository.UserRepository;
 import org.youcode.hunters_leagues.service.ParticipationService;
+import org.youcode.hunters_leagues.service.dto.CompetitionResultDto;
 import org.youcode.hunters_leagues.web.exception.competition.CompetitionDateException;
 import org.youcode.hunters_leagues.web.exception.competition.InvalidCompetitionExeption;
 import org.youcode.hunters_leagues.web.exception.competition.InvalidRegistrationException;
@@ -18,14 +19,17 @@ import org.youcode.hunters_leagues.web.exception.user.UserLicenseExpirationExcep
 import org.youcode.hunters_leagues.web.vm.ParticipationVm;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class ParticipationServiceImpl implements ParticipationService {
-    private ParticipationRepository participationRepository;
-    private CompetitionRepository competitionRepository;
-    private UserRepository userRepository;
+    private final ParticipationRepository participationRepository;
+    private final CompetitionRepository competitionRepository;
+    private final UserRepository userRepository;
     public ParticipationServiceImpl(ParticipationRepository participationRepository, CompetitionRepository competitionRepository, UserRepository userRepository) {
         this.participationRepository = participationRepository;
         this.competitionRepository = competitionRepository;
@@ -74,6 +78,25 @@ public class ParticipationServiceImpl implements ParticipationService {
         return participation;
 
     }
+
+    @Override
+    public List<CompetitionResultDto> getUserCompetitionResults(UUID userId) {
+        List<Participation> participations = this.getParticipationByUserId(userId);
+        return participations.stream()
+                .map(participation -> new CompetitionResultDto(
+                        participation.getCompetition().getId(),
+                        participation.getCompetition().getCode(),
+                        participation.getCompetition().getLocation(),
+                        participation.getCompetition().getDate(),
+                        participation.getScore()
+                ))
+                .collect(Collectors.toList());
+       }
+    @Override
+    public List<Participation> getParticipationByUserId(UUID userId) {
+        return participationRepository.findByUserId(userId);
+        }
+
     public Double calculateScore(UUID id) {
         Participation participation = findById(id);
         Double score = participation.getHunts().stream().mapToDouble(hunt -> hunt.getSpecies().getPoints() + hunt.getWeight() * hunt.getSpecies().getCategory().getValue() * hunt.getSpecies().getDifficulty().getValue()).sum();
@@ -81,6 +104,8 @@ public class ParticipationServiceImpl implements ParticipationService {
         participationRepository.save(participation);
         return score;
     }
+
+
 
 
 }
