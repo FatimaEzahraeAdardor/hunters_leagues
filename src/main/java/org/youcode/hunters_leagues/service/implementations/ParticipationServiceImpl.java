@@ -18,6 +18,9 @@ import org.youcode.hunters_leagues.web.exception.user.UserLicenseExpirationExcep
 import org.youcode.hunters_leagues.web.vm.ParticipationVm;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.UUID;
+
 @Service
 public class ParticipationServiceImpl implements ParticipationService {
     private ParticipationRepository participationRepository;
@@ -62,6 +65,21 @@ public class ParticipationServiceImpl implements ParticipationService {
         participation.setScore(participationVm.getScore());
 
         return participationRepository.save(participation);
+    }
+
+    @Override
+    public Participation findById(UUID id) {
+        Optional<Participation> participationOptional = participationRepository.findById(id);
+        Participation participation = participationOptional.get();
+        return participation;
+
+    }
+    public Double calculateScore(UUID id) {
+        Participation participation = findById(id);
+        Double score = participation.getHunts().stream().mapToDouble(hunt -> hunt.getSpecies().getPoints() + hunt.getWeight() * hunt.getSpecies().getCategory().getValue() * hunt.getSpecies().getDifficulty().getValue()).sum();
+        participation.setScore(score);
+        participationRepository.save(participation);
+        return score;
     }
 
 

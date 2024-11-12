@@ -13,6 +13,7 @@ import org.youcode.hunters_leagues.service.SpeciesService;
 import org.youcode.hunters_leagues.web.exception.species.InvalidSpeciesExeption;
 import org.youcode.hunters_leagues.web.exception.user.InvalidUserExeption;
 
+import java.util.Optional;
 import java.util.UUID;
 @Service
 public class SpeciesServiceImpl implements SpeciesService {
@@ -51,6 +52,13 @@ public class SpeciesServiceImpl implements SpeciesService {
 
         speciesRepository.delete(species);
         return true;
+    }
+
+    @Override
+    public Species findById(UUID id) {
+        Optional<Species> speciesOptional = speciesRepository.findById(id);
+        Species species = speciesOptional.orElseThrow(() -> new RuntimeException("Species not found"));
+        return species;
     }
 
     @Override
