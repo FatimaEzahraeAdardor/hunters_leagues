@@ -10,6 +10,7 @@ import org.youcode.hunters_leagues.web.exception.competition.InvalidRegistration
 import org.youcode.hunters_leagues.web.exception.participation.ParticipationAlreadyExistsException;
 import org.youcode.hunters_leagues.web.exception.participation.ParticipationInvalidException;
 import org.youcode.hunters_leagues.web.exception.species.InvalidSpeciesExeption;
+import org.youcode.hunters_leagues.web.exception.species.InvalidWheightExeption;
 import org.youcode.hunters_leagues.web.exception.user.InvalidCredentialsException;
 import org.youcode.hunters_leagues.web.exception.user.InvalidUserExeption;
 import org.youcode.hunters_leagues.web.exception.user.UserAlreadyExistException;
@@ -59,6 +60,10 @@ public class GlobalExceptionHandler {
     }
     @ExceptionHandler(UserLicenseExpirationException.class)
     public ResponseEntity<String> handleUserLicenseExpirationException(UserLicenseExpirationException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(InvalidWheightExeption.class)
+    public ResponseEntity<String> handleInvalidWheightExeption(InvalidWheightExeption ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 

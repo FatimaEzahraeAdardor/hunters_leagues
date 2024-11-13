@@ -12,6 +12,6 @@ public interface CompetitionService {
     Competition update(Competition competition);
     Boolean delete(UUID id);
     Page<Competition> getAllCompetitionPaginated(int page, int size);
-
     Competition getCompetitionDetails(UUID id);
+
 }

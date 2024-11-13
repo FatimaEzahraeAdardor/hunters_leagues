@@ -10,6 +10,7 @@ public interface SpeciesService {
     Species save(Species species);
     Species update(Species species);
     Boolean delete(UUID id);
+    Species findById(UUID id);
     Page<Species> getAllSpeciesPaginated(int page, int size);
     Page<Species> getSpeciesByCategory(SpeciesType category, int page, int size);
 
