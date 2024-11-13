@@ -16,4 +16,6 @@ public interface ParticipationService {
     List<CompetitionResultDto> getUserCompetitionResults(UUID userId);
 
     List<Participation> getParticipationByUserId(UUID userId);
+    List<Participation> getTop3Participants(UUID competitionId);
+    Double calculateScore(UUID id);
 }

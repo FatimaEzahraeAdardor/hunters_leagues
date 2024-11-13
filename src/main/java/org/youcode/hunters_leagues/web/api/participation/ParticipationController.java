@@ -15,10 +15,8 @@ import org.youcode.hunters_leagues.web.vm.*;
 import org.youcode.hunters_leagues.web.vm.mapper.CompetitionVmMapper;
 import org.youcode.hunters_leagues.web.vm.mapper.ParticipationVmMapper;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/participation")
@@ -46,6 +44,13 @@ public class ParticipationController {
     @GetMapping("/results")
     public List<CompetitionResultDto> getUserCompetitionResults(@RequestParam UUID userId) {
         return participationServiceImp.getUserCompetitionResults(userId);
+    }
+    @GetMapping("/podium")
+    public List<ParticipationResponseVm> getPodiumParticipations(@RequestParam UUID competitionId) {
+        List<Participation> participations = participationServiceImp.getTop3Participants(competitionId);
+        return participations.stream()
+                .map(participationVmMapper::ToVM)
+                .collect(Collectors.toList());
     }
 
 }

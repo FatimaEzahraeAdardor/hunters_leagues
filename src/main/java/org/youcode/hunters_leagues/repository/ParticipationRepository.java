@@ -1,8 +1,6 @@
 package org.youcode.hunters_leagues.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.youcode.hunters_leagues.domain.Competition;
 import org.youcode.hunters_leagues.domain.Participation;
 import org.youcode.hunters_leagues.domain.User;
@@ -15,5 +13,5 @@ public interface ParticipationRepository extends JpaRepository<Participation, UU
     Boolean existsByUserAndCompetition(User user, Competition competition);
 
     List<Participation> findByUserId(UUID userId);
-
+    List<Participation> findTop3ByCompetitionIdOrderByScoreDesc(UUID competitionId);
 }

@@ -9,6 +9,6 @@ import java.util.UUID;
 @Setter
 public class ParticipationResponseVm {
     private UserResponseVm user;
-    private CompetitionResponseVm competitionId;
+    private CompetitionResponseVm competition;
     private double score;
 }
