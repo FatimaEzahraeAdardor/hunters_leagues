@@ -108,7 +108,10 @@ public class ParticipationServiceImpl implements ParticipationService {
                 return score;
     }
 
-
+    @Override
+    public List<Participation> findCompetitionsHistoryByUser(UUID userId) {
+        return participationRepository.findCompetitionsHistoryByUser(userId);
+    }
 
 
 }

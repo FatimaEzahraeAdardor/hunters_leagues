@@ -52,5 +52,12 @@ public class ParticipationController {
                 .map(participationVmMapper::ToVM)
                 .collect(Collectors.toList());
     }
+    @GetMapping("historical")
+    public List<HistoricalParticipationVm> getHistoricalParticipations(@RequestParam UUID userId) {
+       List<Participation> participations = participationServiceImp.findCompetitionsHistoryByUser(userId);
+       return participations.stream()
+               .map(participation -> participationVmMapper.ToHISTORICAL_PARTICIPATION_Vm(participation))
+               .collect(Collectors.toList());
+    }
 
 }
