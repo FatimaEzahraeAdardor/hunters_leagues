@@ -40,7 +40,6 @@ public class RegisterRequest {
     private String nationality;
 
 
-    private Role role;
 
 
 }

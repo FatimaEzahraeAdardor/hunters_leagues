@@ -12,6 +12,8 @@ import org.youcode.hunters_leagues.web.vm.AuthenticationRequest;
 import org.youcode.hunters_leagues.web.vm.AuthenticationResponse;
 import org.youcode.hunters_leagues.web.vm.RegisterRequest;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -28,7 +30,9 @@ public class AuthService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .cin(request.getCin())
                 .nationality(request.getNationality())
-                .role(request.getRole())
+                .role(Role.MEMBER)
+                .joinDate(LocalDateTime.now())
+                .licenseExpirationDate(LocalDateTime.now().plusMonths(1))
                 .build();
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);

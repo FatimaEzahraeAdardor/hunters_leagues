@@ -12,6 +12,11 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.youcode.hunters_leagues.filter.JwtAuthenticationFilter;
 
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
+import static org.youcode.hunters_leagues.domain.enums.Permission.*;
+import static org.youcode.hunters_leagues.domain.enums.Role.*;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -25,6 +30,11 @@ public class SecurityConfiguration {
                 .csrf().disable()
                 .authorizeRequests()
                 .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/users/**").hasAnyRole(ADMIN.name())
+                .requestMatchers("api/species/**").hasAnyRole(ADMIN.name())
+                .requestMatchers(GET,"/api/participation/**").hasAuthority(CAN_VIEW_RANKINGS.name())
+                .requestMatchers(POST,"/api/participation/**").hasAuthority(CAN_PARTICIPATE.name())
+                .requestMatchers("/api/hunts").hasAnyRole(ADMIN.name(), JURY.name())
                 .anyRequest()
                 .authenticated()
                 .and()
