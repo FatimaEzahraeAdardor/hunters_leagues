@@ -4,6 +4,7 @@ spring:
 #    password: hunter
 #    url:
 #    driver-class-name: org.postgresql.Driver
+
   jpa:
     properties:
       hibernate:
@@ -20,3 +21,10 @@ spring:
       file: src/main/docker/compose.yaml
       enabled: true
       lifecycle-management: start_only
+server:
+  port: 8443
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: password
+    key-store-type: PKCS12
+    key-alias: mycert
