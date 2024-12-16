@@ -1,10 +1,4 @@
 spring:
-#  datasource:
-#    username: hunter
-#    password: hunter
-#    url:
-#    driver-class-name: org.postgresql.Driver
-
   jpa:
     properties:
       hibernate:
@@ -13,14 +7,26 @@ spring:
   liquibase:
     enabled: true
     change-log: db/changelog/master.yaml
-#  autoconfigure:
-#    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 
   docker:
     compose:
       file: src/main/docker/compose.yaml
       enabled: true
       lifecycle-management: start_only
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/keycloak_springboot
+          jwk-set-uri: http://localhost:8080/realms/keycloak_springboot/protocol/openid-connect/certs
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.keycloak: DEBUG
+    org.youcode.hunters_leagues: DEBUG
+
 server:
   port: 8443
   ssl:
@@ -28,3 +34,12 @@ server:
     key-store-password: password
     key-store-type: PKCS12
     key-alias: mycert
+keycloak:
+  auth-server-url: http://localhost:8080
+  realm: keycloak_springboot
+  resource: hunterleague
+  credentials:
+    secret: Eg1co8UZp1K74pSfC94IMR9c8yM594dM
+  admin:
+    client-id: admin-cli
+    client-secret: UO35XLxd0XhUaDOnCSQn6DUE73WSa7SK

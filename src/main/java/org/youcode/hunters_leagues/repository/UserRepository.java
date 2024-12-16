@@ -1,5 +1,6 @@
 package org.youcode.hunters_leagues.repository;
 
+import jakarta.validation.constraints.NotBlank;
 import org.mapstruct.control.MappingControl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +15,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     Optional<User> findByUsername(String username);
     List<User> findByUsernameIgnoreCaseOrEmailIgnoreCase(String name, String email);
     Optional<User> findByEmail(String email);
+    boolean existsByUsername(@NotBlank(message = "Username cannot be blank.") String username);
 
 //    Page<User> findAll(Pageable pageable);
 
