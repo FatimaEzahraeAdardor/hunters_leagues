@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven' // Replace 'Maven' with the actual name of your Maven installation in Jenkins
+        maven 'Maven'
     }
 
     environment {
@@ -16,7 +16,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    deleteDir() // Clean workspace
+                    deleteDir()
                     echo "Cloning Git repository..."
                     sh '''
                         git clone -b v04 https://github.com/FatimaEzahraeAdardor/hunters_leagues .
@@ -110,7 +110,9 @@ pipeline {
 
     post {
         always {
-            cleanWs() // No need for `node` block here
+            script {
+                cleanWs()
+            }
         }
         success {
             echo 'Pipeline executed successfully!'
