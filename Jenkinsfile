@@ -73,11 +73,11 @@ pipeline {
         stage('Code Quality Analysis') {
             steps {
                 sh '''
-                    mvn sonar:sonar \
-                        -Dsonar.projectKey=hunters_league \
-                        -Dsonar.projectName=HuntersLeague \
-                        -Dsonar.host.url=http://sonarqube:9000 \
-                        -Dsonar.login=${SONAR_TOKEN}
+                    mvn clean verify sonar:sonar \
+                      -Dsonar.projectKey=hunters_league \
+                      -Dsonar.projectName='hunters_league' \
+                      -Dsonar.host.url=http://localhost:9000 \
+                      -Dsonar.token=sqp_5d1991305e029e27660b0725de009540b46570b2
                 '''
             }
         }
