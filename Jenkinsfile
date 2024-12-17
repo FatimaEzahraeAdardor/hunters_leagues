@@ -110,10 +110,8 @@ pipeline {
 
     post {
         always {
-            node {
-                cleanWs()
-            }
-         }
+            cleanWs() // No need for `node` block here
+        }
         success {
             echo 'Pipeline executed successfully!'
         }
