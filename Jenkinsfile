@@ -7,9 +7,15 @@ pipeline {
     }
 
     stages {
+        stage('Clean Workspace') {
+            steps {
+                deleteDir()  // Clean the workspace before checking out the repo
+            }
+        }
+
         stage('Checkout') {
             steps {
-                git 'https://github.com/FatimaEzahraeAdardor/hunters_leagues'
+                git branch: 'main', url: 'https://github.com/FatimaEzahraeAdardor/hunters_leagues'
             }
         }
 
@@ -26,15 +32,6 @@ pipeline {
             }
         }
 
-        // You can add additional stages if needed, for example:
-        // stage('Quality Gate') {
-        //     steps {
-        //         script {
-        //             // Run the Quality Gate step after analysis, for example:
-        //             waitForQualityGate abortPipeline: true
-        //         }
-        //     }
-        // }
-
+        // Optionally, you can add more stages, e.g., for waiting for the quality gate
     }
 }
