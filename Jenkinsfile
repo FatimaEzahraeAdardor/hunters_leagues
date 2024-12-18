@@ -77,7 +77,7 @@ pipeline {
                         -Dsonar.projectKey=hunters_league \
                          -Dsonar.projectName='hunters_league' \
                          -Dsonar.host.url=http://localhost:9000 \
-                         -Dsonar.token=sqp_5d1991305e029e27660b0725de009540b46570b2
+                         -Dsonar.token=sqp_10d9bf4bf0f27b8aeb8053f77bf9b38a87aa7aa0
                 '''
 
             }
