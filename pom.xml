@@ -22,7 +22,7 @@
         <sonar.projectKey>hunters_league</sonar.projectKey>
         <sonar.projectName>hunters_league</sonar.projectName>
         <sonar.projectVersion>0.0.1-SNAPSHOT</sonar.projectVersion>
-<!--        <sonar.login>sqa_2452c6b30074ed8668feec957f243900378ea17d</sonar.login>-->
+        <sonar.login>sqa_2452c6b30074ed8668feec957f243900378ea17d</sonar.login>
     </properties>
 
     <dependencies>

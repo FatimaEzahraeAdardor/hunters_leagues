@@ -68,5 +68,25 @@ pipeline {
                 }
             }
         }
+         stage('Build Docker Image') {
+            steps {
+                script {
+                    echo "Building Docker Image..."
+                    sh 'docker build -t springboot-app .'
+                }
+            }
+        }
+        stage('Deploy Docker Container') {
+            steps {
+                script {
+                    echo "Deploying Docker container..."
+                    sh """
+                    docker stop springboot-app-container || true
+                    docker rm springboot-app-container || true
+                    docker run -d -p 8080:8080 --name springboot-app-container springboot-app
+                    """
+                }
+            }
+        }
     }
 }
