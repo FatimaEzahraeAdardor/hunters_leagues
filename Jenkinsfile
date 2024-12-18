@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/FatimaEzahraeAdardor/hunters_leagues'
+                git 'https://github.com/FatimaEzahraeAdardor/hunters_leagues'
             }
         }
 
