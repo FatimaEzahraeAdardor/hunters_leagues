@@ -10,7 +10,7 @@
         stages {
             stage('Checkout') {
                 steps {
-                    git 'https://github.com/FatimaEzahraeAdardor/hunters_leagues'
+                  git branch: 'main', url: 'https://github.com/FatimaEzahraeAdardor/hunters_leagues'
                 }
             }
 
