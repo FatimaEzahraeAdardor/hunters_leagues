@@ -1,0 +1,40 @@
+package org.youcode.hunters_leagues.web.vm;
+
+import jakarta.validation.constraints.*;
+import lombok.*;
+
+import java.time.LocalDate;
+
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserVm {
+    @NotBlank(message = "Username is required.")
+    private String username;
+
+    @NotBlank(message = "Password is required.")
+    @Size(min = 8, message = "Password must be at least 8 characters.")
+    private String password;
+
+    @NotBlank(message = "First name is required.")
+    private String firstName;
+
+    @NotBlank(message = "Last name is required.")
+    private String lastName;
+
+    @NotBlank(message = "CIN is required.")
+    @Pattern(regexp = "^[A-Z0-9]{6,12}$", message = "CIN must be alphanumeric and between 6 and 12 characters.")
+    private String cin;
+
+    @NotBlank(message = "Email is required.")
+    @Email(message = "Email should be valid.")
+    private String email;
+
+    @NotBlank(message = "Nationality is required.")
+    private String nationality;
+
+    @FutureOrPresent(message = "License expiration date cannot be in the past")
+    private LocalDate licenseExpiration;
+}
