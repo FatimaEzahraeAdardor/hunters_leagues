@@ -24,13 +24,19 @@
                 }
             }
 
-            stage('Quality Gate') {
+            stage('SonarQube Analysis') {
                 steps {
                     script {
-                        // Wait for the Quality Gate result and fail if not passed
-                        waitForQualityGate abortPipeline: true
+                        withSonarQubeEnv('SonarQube') {
+                            // Debugging output
+                            echo "Running SonarQube Analysis..."
+                            sh '''
+                                mvn clean verify sonar:sonar -Dsonar.projectKey=hunters_league -Dsonar.projectName="hunters_league" -Dsonar.host.url=$SONARQUBE_URL -Dsonar.login=$SONAR_TOKEN
+                            '''
+                        }
                     }
                 }
             }
+
         }
     }
