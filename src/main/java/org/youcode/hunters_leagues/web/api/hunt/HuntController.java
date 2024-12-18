@@ -36,38 +36,4 @@ public class HuntController {
         response.put("hunt", huntResponseVm);
         return new  ResponseEntity<>(response, HttpStatus.CREATED);
     }
-
-
-//    @PutMapping("update/{id}")
-//    public ResponseEntity<Map<String, Object>> updateCompetition(@PathVariable UUID id, @RequestBody @Valid CompetitionVm competitionVm) {
-//        Competition competition = competitionVmMapper.toEntity(competitionVm);
-//        competition.setId(id);
-//        Competition updatedCompetition = competitionServiceImp.update(competition);
-//        CompetitionResponseVm competitionResponseVm = competitionVmMapper.toVM(updatedCompetition);
-//        Map<String, Object> response = new HashMap<>();
-//        response.put("message", "Competition updated successfully");
-//        response.put("Competition", competitionResponseVm);
-//        return new  ResponseEntity<>(response, HttpStatus.CREATED);
-//    }
-//
-//    @DeleteMapping("/delete/{id}")
-//    public ResponseEntity<String> deleteSpecies(@PathVariable UUID id) {
-//      competitionServiceImp.delete(id);
-//     return ResponseEntity.ok("Competition deleted successfully");
-//    }
-//
-//
-//    @GetMapping("id")
-//    public ResponseEntity<CompetitionResponseVm> findCompetitionDetails(@RequestParam("id") UUID id){
-//        Competition competition = competitionServiceImp.getCompetitionDetails(id);
-//        CompetitionResponseVm competitionResponseVm = competitionVmMapper.toVM(competition);
-//        return new ResponseEntity<>(competitionResponseVm, HttpStatus.OK);
-//    }
-//    @GetMapping("all")
-//    public ResponseEntity<Page<CompetitionResponseVm>> getAllCompetitions(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size) {
-//        Page<Competition> competitionsPage = competitionServiceImp.getAllCompetitionPaginated(page, size);
-//        List<CompetitionResponseVm> competitionResponseVms = competitionsPage.getContent().stream().map(competitionVmMapper::toVM).toList();
-//        Page<CompetitionResponseVm> competitionResponseVmsPage = new PageImpl<>(competitionResponseVms, competitionsPage.getPageable(), competitionsPage.getTotalElements());
-//        return ResponseEntity.ok(competitionResponseVmsPage);
-//    }
 }

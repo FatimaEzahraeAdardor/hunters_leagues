@@ -48,7 +48,6 @@ public class SpeciesServiceImpl implements SpeciesService {
         Species species = speciesRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Species not found"));
 
-//        huntRepository.deleteBySpeciesId(speciesId);
 
         speciesRepository.delete(species);
         return true;

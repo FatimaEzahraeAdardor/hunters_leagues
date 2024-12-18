@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.youcode.hunters_leagues.domain.enums.SpeciesType;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;

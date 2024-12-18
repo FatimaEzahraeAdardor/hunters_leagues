@@ -32,6 +32,5 @@ pipeline {
             }
         }
 
-        // Optionally, you can add more stages, e.g., for waiting for the quality gate
     }
 }
