@@ -35,6 +35,7 @@ public class User implements UserDetails {
 
     private String lastName;
 
+
     private String cin;
 
     private String email;
