@@ -1,11 +1,6 @@
 
 pipeline {
-    agent {
-        docker {
-            image 'maven:3.8.8-eclipse-temurin-17'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
-        }
-    }
+
     environment {
         SONAR_PROJECT_KEY = "hunters_league"
         SONAR_TOKEN = "sqa_2452c6b30074ed8668feec957f243900378ea17d"
@@ -17,10 +12,7 @@ pipeline {
                 script {
                     echo "Installing jq and Docker CLI..."
                     sh '''
-                    apt-get update && apt-get install -y jq apt-transport-https ca-certificates curl gnupg-agent software-properties-common
-                    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-                    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-                    apt-get update && apt-get install -y docker-ce-cli
+                    apt-get update && apt-get install -y jq
                     '''
                 }
             }
