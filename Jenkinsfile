@@ -1,6 +1,10 @@
 pipeline {
-    agent any
-
+   agent {
+           docker {
+               image 'maven:3.8.8-eclipse-temurin-17'
+               args '-v /var/run/docker.sock:/var/run/docker.sock'
+           }
+       }
     environment {
         SONAR_PROJECT_KEY = "hunters_league"
         SONAR_TOKEN = "sqa_2452c6b30074ed8668feec957f243900378ea17d" // Use Jenkins credentials for security
@@ -13,7 +17,7 @@ pipeline {
                 script {
                     echo "Installing jq..."
                     sh '''
-                   sudo  apt-get update && apt-get install -y jq
+                    apt-get update && apt-get install -y jq
                     '''
                 }
             }
