@@ -1,47 +1,75 @@
+
 pipeline {
-    agent any
-
+    agent {
+        docker {
+            image 'maven:3.8.8-eclipse-temurin-17'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
+    }
     environment {
-        SONARQUBE_URL = 'hhttp://host.docker.internal:9000/'
-        SONAR_TOKEN = "sqa_2452c6b30074ed8668feec957f243900378ea17d"  // Ensure you are using the correct credential ID for the SonarQube token
+        SONAR_PROJECT_KEY = "hunters_league"
+        SONAR_TOKEN = "sqa_2452c6b30074ed8668feec957f243900378ea17d"
+        SONAR_HOST_URL = "http://host.docker.internal:9000"
     }
-
     stages {
-        stage('Clean Workspace') {
+        stage('Install Tools') {
             steps {
-                deleteDir()  // Clean the workspace before checking out the repo
+                script {
+                    echo "Installing jq and Docker CLI..."
+                    sh '''
+                    apt-get update && apt-get install -y jq apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+                    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+                    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+                    apt-get update && apt-get install -y docker-ce-cli
+                    '''
+                }
+            }
+        }
+        stage('Checkout Code') {
+            steps {
+                script {
+                    echo "Checking out code from GitHub..."
+                    checkout([$class: 'GitSCM',
+                        branches: [[name: '*/main']],
+                        userRemoteConfigs: [[
+                            url: 'https://github.com/FatimaEzahraeAdardor/hunters_leagues'
+                        ]]
+                    ])
+                }
+            }
+        }
+        stage('Build and SonarQube Analysis') {
+            steps {
+                echo "Running Maven build and SonarQube analysis..."
+                sh """
+                mvn clean package sonar:sonar \
+                  -Dsonar.projectKey=$SONAR_PROJECT_KEY \
+                  -Dsonar.host.url=$SONAR_HOST_URL \
+                  -Dsonar.login=$SONAR_TOKEN
+                """
+            }
+        }
+        stage('Quality Gate Check') {
+            steps {
+                script {
+                    echo "Checking SonarQube Quality Gate..."
+                    def qualityGate = sh(
+                        script: """
+                        curl -s -u "$SONAR_TOKEN:" \
+                        "$SONAR_HOST_URL/api/qualitygates/project_status?projectKey=$SONAR_PROJECT_KEY" \
+                        | tee response.json | jq -r '.projectStatus.status'
+                        """,
+                        returnStdout: true
+                    ).trim()
+                    if (qualityGate != "OK") {
+                        error "Quality Gate failed! Stopping the build."
+                    }
+                    echo "Quality Gate passed! Proceeding..."
+                }
             }
         }
 
-        stage('Checkout') {
-            steps {
-                git branch: 'main', url: 'https://github.com/FatimaEzahraeAdardor/hunters_leagues'
-            }
-        }
 
-        stage('Check Maven Version') {
-            steps {
-                sh 'mvn --version' // Check Maven version to verify if it's installed correctly
-            }
-        }
-
-       stage('SonarQube Analysis') {
-           tools {
-               maven 'Maven'
-           }
-           steps {
-               script {
-                   withSonarQubeEnv('SonarQube') {
-                       echo "Running SonarQube Analysis..."
-                       sh '''
-                           mvn clean package sonar:sonar \
-                           -Dsonar.projectKey=hunters_league \
-                           -Dsonar.host.url=$SONARQUBE_URL \
-                           -Dsonar.login=$SONAR_TOKEN
-                       '''
-                   }
-               }
-           }
-       }
     }
+
 }
