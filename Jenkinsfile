@@ -13,7 +13,7 @@ pipeline {
                 script {
                     echo "Installing jq..."
                     sh '''
-                    apt-get update && apt-get install -y jq
+                   sudo  apt-get update && apt-get install -y jq
                     '''
                 }
             }
