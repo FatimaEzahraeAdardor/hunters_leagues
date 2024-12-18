@@ -25,24 +25,24 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
-            tools {
-                maven 'Maven' // Ensure Maven is configured in Jenkins tools settings
-            }
-            steps {
-                script {
-                    withSonarQubeEnv('SonarQube') {
-                        echo "Running SonarQube Analysis..."
-                        sh '''
-                            mvn clean verify sonar:sonar \
-                            -Dsonar.projectKey=hunters_league \
-                            -Dsonar.projectName="hunters_league" \
-                            -Dsonar.host.url=$SONARQUBE_URL \
-                            -Dsonar.login=$SONAR_TOKEN
-                        '''
-                    }
-                }
-            }
-        }
+       stage('SonarQube Analysis') {
+           tools {
+               maven 'Maven'
+           }
+           steps {
+               script {
+                   withSonarQubeEnv('SonarQube') {
+                       echo "Running SonarQube Analysis..."
+                       sh '''
+                           mvn clean verify sonar:sonar \
+                           -Dsonar.projectKey=hunters_league \
+                           -Dsonar.projectName="hunters_league" \
+                           -Dsonar.host.url=$SONARQUBE_URL \
+                           -Dsonar.login=$SONAR_TOKEN
+                       '''
+                   }
+               }
+           }
+       }
     }
 }
