@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        SONARQUBE_URL = 'http://localhost:9000'
-        SONAR_TOKEN = credentials('sonar-token')  // Ensure you are using the correct credential ID for the SonarQube token
+        SONARQUBE_URL = 'hhttp://host.docker.internal:9000/'
+        SONAR_TOKEN = "sqa_2452c6b30074ed8668feec957f243900378ea17d"  // Ensure you are using the correct credential ID for the SonarQube token
     }
 
     stages {
@@ -34,9 +34,8 @@ pipeline {
                    withSonarQubeEnv('SonarQube') {
                        echo "Running SonarQube Analysis..."
                        sh '''
-                           mvn clean verify sonar:sonar \
+                           mvn clean package sonar:sonar \
                            -Dsonar.projectKey=hunters_league \
-                           -Dsonar.projectName="hunters_league" \
                            -Dsonar.host.url=$SONARQUBE_URL \
                            -Dsonar.login=$SONAR_TOKEN
                        '''
