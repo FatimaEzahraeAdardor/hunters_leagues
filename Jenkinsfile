@@ -12,6 +12,9 @@ pipeline {
                 deleteDir()  // Clean the workspace before checking out the repo
             }
         }
+    tools {
+        git 'Default' // or the specific name you set in Global Tool Configuration
+    }
 
         stage('Checkout') {
             steps {
