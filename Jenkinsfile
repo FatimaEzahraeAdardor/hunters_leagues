@@ -1,22 +1,24 @@
-
 pipeline {
+    agent any
 
     environment {
         SONAR_PROJECT_KEY = "hunters_league"
-        SONAR_TOKEN = "sqa_2452c6b30074ed8668feec957f243900378ea17d"
+        SONAR_TOKEN = credentials('sonar-token') // Use Jenkins credentials for security
         SONAR_HOST_URL = "http://host.docker.internal:9000"
     }
+
     stages {
         stage('Install Tools') {
             steps {
                 script {
-                    echo "Installing jq and Docker CLI..."
+                    echo "Installing jq..."
                     sh '''
                     apt-get update && apt-get install -y jq
                     '''
                 }
             }
         }
+
         stage('Checkout Code') {
             steps {
                 script {
@@ -30,6 +32,7 @@ pipeline {
                 }
             }
         }
+
         stage('Build and SonarQube Analysis') {
             steps {
                 echo "Running Maven build and SonarQube analysis..."
@@ -41,6 +44,7 @@ pipeline {
                 """
             }
         }
+
         stage('Quality Gate Check') {
             steps {
                 script {
@@ -49,7 +53,7 @@ pipeline {
                         script: """
                         curl -s -u "$SONAR_TOKEN:" \
                         "$SONAR_HOST_URL/api/qualitygates/project_status?projectKey=$SONAR_PROJECT_KEY" \
-                        | tee response.json | jq -r '.projectStatus.status'
+                        | jq -r '.projectStatus.status'
                         """,
                         returnStdout: true
                     ).trim()
@@ -60,8 +64,5 @@ pipeline {
                 }
             }
         }
-
-
     }
-
 }
