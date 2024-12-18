@@ -4,7 +4,7 @@ pipeline {
     environment {
         SONAR_PROJECT_KEY = "hunters_league"
         SONAR_TOKEN = credentials('sonar-token') // Use Jenkins credentials for security
-        SONAR_HOST_URL = "http://host.docker.internal:9000"
+        SONAR_HOST_URL sqa_2452c6b30074ed8668feec957f243900378ea17d= "http://host.docker.internal:9000"
     }
 
     stages {
