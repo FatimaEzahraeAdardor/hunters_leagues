@@ -9,3 +9,8 @@ services:
       - 'POSTGRES_USER=samurai'
     ports:
       - '5433:5432'
+    networks:
+      - samurai_network
+networks:
+  samurai_network:
+    driver: bridge

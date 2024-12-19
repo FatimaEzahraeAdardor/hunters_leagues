@@ -1,9 +1,9 @@
 spring:
-#  datasource:
-#    username: hunter
-#    password: hunter
-#    url:
-#    driver-class-name: org.postgresql.Driver
+  datasource:
+    username: samurai
+    password: password
+    url: jdbc:postgresql://host.docker.internal:5433/samurai
+    driver-class-name: org.postgresql.Driver
   jpa:
     properties:
       hibernate:
