@@ -20,3 +20,5 @@ spring:
       file: src/main/docker/compose.yaml
       enabled: true
       lifecycle-management: start_only
+server:
+  port: 8081
