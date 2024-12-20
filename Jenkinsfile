@@ -90,7 +90,7 @@ pipeline {
     }
     post {
         always {
-            mail to: 'fatimzfatima5@mail.com',
+            mail to: 'fatimzfatima5@gmail.com',
                  subject: "Build #${env.BUILD_NUMBER} - ${currentBuild.currentResult}",
                  body: """
                  Build #${env.BUILD_NUMBER} of ${env.JOB_NAME} has ${currentBuild.currentResult}.
