@@ -88,22 +88,36 @@ pipeline {
             }
         }
     }
-        post {
-            failure {
-                script {
-                    try {
-                        mail to: 'fatimzfatima5@example.com',
-                             subject: "Build #${env.BUILD_NUMBER} FAILED",
-                             body: """
-                             Build #${env.BUILD_NUMBER} of ${env.JOB_NAME} has failed.
-                             Check the details here: ${env.BUILD_URL}
-                             """
-                    } catch (Exception e) {
-                        echo "Failed to send notification email: ${e.message}"
-                    }
-                }
-            }
-        }
+       post {
+           success {
+               script {
+                   try {
+                       mail to: 'fatimzfatima5@gmail.com',
+                            subject: "Build #${env.BUILD_NUMBER} SUCCESS",
+                            body: """
+                            Build #${env.BUILD_NUMBER} of ${env.JOB_NAME} was successful!
+                            Check the details here: ${env.BUILD_URL}
+                            """
+                   } catch (Exception e) {
+                       echo "Failed to send success notification email: ${e.message}"
+                   }
+               }
+           }
+           failure {
+               script {
+                   try {
+                       mail to: 'fatimzfatima5@gmail.com',
+                            subject: "Build #${env.BUILD_NUMBER} FAILED",
+                            body: """
+                            Build #${env.BUILD_NUMBER} of ${env.JOB_NAME} has failed.
+                            Check the details here: ${env.BUILD_URL}
+                            """
+                   } catch (Exception e) {
+                       echo "Failed to send failure notification email: ${e.message}"
+                   }
+               }
+           }
+       }
 
 
 }
