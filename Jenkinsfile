@@ -88,4 +88,20 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            mail to: 'fatimzfatima5@mail.com',
+                 subject: "Build #${env.BUILD_NUMBER} - ${currentBuild.currentResult}",
+                 body: """
+                 Build #${env.BUILD_NUMBER} of ${env.JOB_NAME} has ${currentBuild.currentResult}.
+                 Check the details here: ${env.BUILD_URL}
+                 """
+        }
+        success {
+            echo "Build succeeded, notification sent."
+        }
+        failure {
+            echo "Build failed, notification sent."
+        }
+    }
 }
