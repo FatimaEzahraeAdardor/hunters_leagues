@@ -92,7 +92,7 @@ pipeline {
             failure {
                 script {
                     try {
-                        mail to: 'developer@example.com',
+                        mail to: 'fatimzfatima5@example.com',
                              subject: "Build #${env.BUILD_NUMBER} FAILED",
                              body: """
                              Build #${env.BUILD_NUMBER} of ${env.JOB_NAME} has failed.
