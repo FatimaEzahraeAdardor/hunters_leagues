@@ -88,20 +88,22 @@ pipeline {
             }
         }
     }
-    post {
-        always {
-            mail to: 'fatimzfatima5@gmail.com',
-                 subject: "Build #${env.BUILD_NUMBER} - ${currentBuild.currentResult}",
-                 body: """
-                 Build #${env.BUILD_NUMBER} of ${env.JOB_NAME} has ${currentBuild.currentResult}.
-                 Check the details here: ${env.BUILD_URL}
-                 """
+        post {
+            failure {
+                script {
+                    try {
+                        mail to: 'developer@example.com',
+                             subject: "Build #${env.BUILD_NUMBER} FAILED",
+                             body: """
+                             Build #${env.BUILD_NUMBER} of ${env.JOB_NAME} has failed.
+                             Check the details here: ${env.BUILD_URL}
+                             """
+                    } catch (Exception e) {
+                        echo "Failed to send notification email: ${e.message}"
+                    }
+                }
+            }
         }
-        success {
-            echo "Build succeeded, notification sent."
-        }
-        failure {
-            echo "Build failed, notification sent."
-        }
-    }
+
+
 }
